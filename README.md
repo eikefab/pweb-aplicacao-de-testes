@@ -1,6 +1,9 @@
-# API de Gerenciamento de Usuários
+# Equipe
 
-API RESTful desenvolvida com Node.js e Express para gerenciamento de usuários com autenticação JWT.
+* Eike Fabrício da Silva (efs57@aluno.ifal.edu.br)
+* Marina Medeiros Correia de Paffer (mmcp1@aluno.ifal.edu.br)
+
+O sistema selecionado é o de aplicação de testes, como aplicação do projeto de proficiência na disciplina de Programação Web. 
 
 ## Tecnologias Utilizadas
 
