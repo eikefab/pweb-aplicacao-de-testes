@@ -4,11 +4,15 @@ import express, { json } from "express";
 import authRouter from "./users/auth/router.js";
 import userRouter from "./users/router.js";
 import errorMiddleware from "./error.js";
+import helmet from "helmet";
 
 export const db = drizzle(process.env.DATABASE_URL!);
 const server = express();
 
 server.use(json());
+server.use(helmet({
+    hidePoweredBy: true,
+}));
 
 server.use("/auth", authRouter);
 server.use("/users", userRouter);
