@@ -3,7 +3,7 @@
 * Eike Fabrício da Silva (efs57@aluno.ifal.edu.br)
 * Marina Medeiros Correia de Paffer (mmcp1@aluno.ifal.edu.br)
 
-O sistema selecionado é o de aplicação de testes, como aplicação do projeto de proficiência na disciplina de Programação Web. 
+O sistema selecionado foi o de aplicação de testes, como aplicação do projeto de proficiência na disciplina de Programação Web. 
 
 ## Tecnologias Utilizadas
 
