@@ -76,10 +76,7 @@ export async function deleteUser(request: Request, response: Response) {
     const { id } = request.params;
     const numericalId = Number(id);
 
-    // TODO: validar corretamente
-    if (!Number.isNaN(numericalId) || !id) {
-        throw new Error("client/invalid-id");
-    }
+    // TODO: validar corretamente o número
 
     await delUser(numericalId);
 

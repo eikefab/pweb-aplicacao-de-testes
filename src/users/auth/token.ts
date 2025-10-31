@@ -22,7 +22,8 @@ export function verifyToken(token: string) {
     try {
         const payload = jwt.verify(token, SECRET);
 
-        return JSON.parse(payload as string);
+        // TODO: tipar corretamente
+        return payload as { id: number; email: string };
     } catch {
         return null;
     }
