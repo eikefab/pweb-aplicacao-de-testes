@@ -38,10 +38,10 @@ export const testQuestions = pgTable("tests_questions", {
 
 export const testQuestionsOptions = pgTable("tests_questions_options", {
   id: uuid().primaryKey().defaultRandom(),
-  questionId: uuid("question_id")
+  testQuestionId: uuid("test_question_id")
     .notNull()
     .references(() => testQuestions.id),
-  optionText: varchar("option_text", { length: 512 }).notNull(),
+  description: varchar("description", { length: 512 }).notNull(),
   isCorrect: boolean("is_correct").notNull().default(false),
 });
 
@@ -88,7 +88,7 @@ export const testQuestionsOptionsRelations = relations(
   testQuestionsOptions,
   ({ one }) => ({
     question: one(testQuestions, {
-      fields: [testQuestionsOptions.questionId],
+      fields: [testQuestionsOptions.testQuestionId],
       references: [testQuestions.id],
     }),
   }),
