@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { verifyToken } from "./token.js";
-import { fetchUserById } from "../service.js";
+import { verifyToken } from "./token";
+import { fetchUserById } from "../service";
 
 export default async function authMiddleware(req: Request, _res: Response, next: NextFunction) {
     const token = req.headers.authorization;

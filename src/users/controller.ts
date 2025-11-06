@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { loginSchema, registerSchema, updateSchema } from "./validator.js";
-import { delUser, fetchUsers, login, registerUser, updateUser } from "./service.js";
-import { getToken } from "./auth/token.js";
+import { loginSchema, registerSchema, updateSchema } from "./validator";
+import { delUser, fetchUsers, login, registerUser, updateUser } from "./service";
+import { getToken } from "./auth/token";
 
 export async function register(request: Request, response: Response) {
     const data = registerSchema.parse(request.body);

@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
-import { users } from "../db/schema.js";
-import { db } from "../index.js";
+import { users } from "../db/schema";
+import { db } from "../index";
 import bcrypt from "bcryptjs";
-import type { UpdateSchemaType } from "./validator.js";
+import type { UpdateSchemaType } from "./validator";
 
 type LoginParams = {
     email: string;

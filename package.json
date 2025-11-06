@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "drizzle:push": "npx drizzle-kit push",
@@ -27,6 +26,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.25",
+    "@types/node": "^24.10.0",
     "@types/pg": "^8.15.6",
     "drizzle-kit": "^0.31.6",
     "tsx": "^4.20.6"
