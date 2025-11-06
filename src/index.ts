@@ -11,9 +11,11 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema });
 const server = express();
 
 server.use(json());
-server.use(helmet({
+server.use(
+  helmet({
     hidePoweredBy: true,
-}));
+  }),
+);
 
 server.use("/auth", authRouter);
 server.use("/users", userRouter);
@@ -21,5 +23,5 @@ server.use("/users", userRouter);
 server.use(errorMiddleware);
 
 server.listen(process.env.PORT ?? 3000, () => {
-    console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
+  console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
 });

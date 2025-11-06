@@ -6,79 +6,79 @@ import { UpdateUserDTO } from "./schema";
 import { UserEmailConflict, UserNotFound } from "./exception";
 
 type LoginParams = {
-    email: string;
-    password: string;
-}
+  email: string;
+  password: string;
+};
 
 async function createUser(user: typeof users.$inferInsert) {
-    const conflict = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.email, user.email)
-    });
+  const conflict = await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.email, user.email),
+  });
 
-    if (conflict) {
-        throw UserEmailConflict;
-    }
+  if (conflict) {
+    throw UserEmailConflict;
+  }
 
-    user.password = await bcrypt.hash(user.password, 10);
+  user.password = await bcrypt.hash(user.password, 10);
 
-    return db.insert(users).values(user).returning();
+  return db.insert(users).values(user).returning();
 }
 
 async function findUser(data: LoginParams) {
-    const user = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.email, data.email)
-    });
+  const user = await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.email, data.email),
+  });
 
-    if (!user) {
-        throw UserNotFound;
-    }
+  if (!user) {
+    throw UserNotFound;
+  }
 
-    const passwordMatches = await bcrypt.compare(data.password, user.password);
+  const passwordMatches = await bcrypt.compare(data.password, user.password);
 
-    if (!passwordMatches) {
-        throw new Error("unauthorized/invalid-credentials");
-    }
+  if (!passwordMatches) {
+    throw new Error("unauthorized/invalid-credentials");
+  }
 
-    return user;
+  return user;
 }
 
 async function findUserById(userId: string) {
-    const user = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, userId)
-    });
+  const user = await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.id, userId),
+  });
 
-    if (!user) {
-        throw UserNotFound;
-    }
+  if (!user) {
+    throw UserNotFound;
+  }
 
-    return user;
+  return user;
 }
 
 async function updateUser(data: UpdateUserDTO, userId: string) {
-    if (data.password) {
-        data.password = await bcrypt.hash(data.password, 10);
-    }
+  if (data.password) {
+    data.password = await bcrypt.hash(data.password, 10);
+  }
 
-    return db.update(users).set(data).where(eq(users.id, userId)).returning();
+  return db.update(users).set(data).where(eq(users.id, userId)).returning();
 }
 
 async function fetchUsers() {
-    return db.query.users.findMany({
-        columns: {
-            password: false,
-        }
-    });
+  return db.query.users.findMany({
+    columns: {
+      password: false,
+    },
+  });
 }
 
 async function deleteUser(userId: string) {
-    return db.delete(users).where(eq(users.id, userId));
+  return db.delete(users).where(eq(users.id, userId));
 }
 
 export {
-    createUser,
-    findUser,
-    findUserById,
-    fetchUsers,
-    deleteUser,
-    updateUser
-}
+  createUser,
+  findUser,
+  findUserById,
+  fetchUsers,
+  deleteUser,
+  updateUser,
+};

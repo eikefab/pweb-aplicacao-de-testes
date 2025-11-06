@@ -1,9 +1,9 @@
 import z from "zod";
 
 const createUserSchema = z.object({
-    email: z.email(),
-    password: z.string().min(8),
-    name: z.string().min(2),
+  email: z.email(),
+  password: z.string().min(8),
+  name: z.string().min(2),
 });
 
 const updateUserSchema = createUserSchema.partial();
