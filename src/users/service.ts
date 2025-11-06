@@ -2,18 +2,21 @@ import { eq } from "drizzle-orm";
 import { users } from "../db/schema";
 import { db } from "../index";
 import bcrypt from "bcryptjs";
-import type { UpdateSchemaType } from "./validator";
+import { UpdateUserDTO } from "./schema";
+import { UserEmailConflict, UserNotFound } from "./exception";
 
 type LoginParams = {
     email: string;
     password: string;
 }
 
-async function registerUser(user: typeof users.$inferInsert) {
-    const conflict = await db.select().from(users).where(eq(users.email, user.email)).limit(1);
+async function createUser(user: typeof users.$inferInsert) {
+    const conflict = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.email, user.email)
+    });
 
-    if (conflict.length) {
-        throw new Error("conflict/user-exists");
+    if (conflict) {
+        throw UserEmailConflict;
     }
 
     user.password = await bcrypt.hash(user.password, 10);
@@ -21,11 +24,13 @@ async function registerUser(user: typeof users.$inferInsert) {
     return db.insert(users).values(user).returning();
 }
 
-async function login(data: LoginParams) {
-    const [user] = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
+async function findUser(data: LoginParams) {
+    const user = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.email, data.email)
+    });
 
     if (!user) {
-        throw new Error("not-found/user-not-found");
+        throw UserNotFound;
     }
 
     const passwordMatches = await bcrypt.compare(data.password, user.password);
@@ -37,7 +42,19 @@ async function login(data: LoginParams) {
     return user;
 }
 
-async function updateUser(data: UpdateSchemaType, userId: number) {
+async function findUserById(userId: string) {
+    const user = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, userId)
+    });
+
+    if (!user) {
+        throw UserNotFound;
+    }
+
+    return user;
+}
+
+async function updateUser(data: UpdateUserDTO, userId: string) {
     if (data.password) {
         data.password = await bcrypt.hash(data.password, 10);
     }
@@ -46,28 +63,22 @@ async function updateUser(data: UpdateSchemaType, userId: number) {
 }
 
 async function fetchUsers() {
-    return db.select().from(users);
+    return db.query.users.findMany({
+        columns: {
+            password: false,
+        }
+    });
 }
 
-async function fetchUserById(userId: number) {
-    const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
-
-    if (!user) {
-        throw new Error("not-found/user-not-found");
-    }
-
-    return user;
-}
-
-async function delUser(userId: number) {
+async function deleteUser(userId: string) {
     return db.delete(users).where(eq(users.id, userId));
 }
 
 export {
-    registerUser,
-    login,
+    createUser,
+    findUser,
+    findUserById,
     fetchUsers,
-    delUser,
-    fetchUserById,
+    deleteUser,
     updateUser
 }

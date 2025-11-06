@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JWT_SECRET;
-const EXPIRES_IN = "1h";
 
 export function getToken(payload: unknown) {
     if (!SECRET) {
@@ -22,8 +21,7 @@ export function verifyToken(token: string) {
     try {
         const payload = jwt.verify(token, SECRET);
 
-        // TODO: tipar corretamente
-        return payload as { id: number; email: string };
+        return payload as { id: string; email: string };
     } catch {
         return null;
     }

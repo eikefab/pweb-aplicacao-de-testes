@@ -1,13 +1,13 @@
 import { Router } from "express";
 import authMiddleware from "./auth/middleware";
-import { deleteUser, getUsers, updateUserByToken } from "./controller";
+import userController from "./controller";
 
 const userRouter: Router = Router();
 
 userRouter.use(authMiddleware);
 
-userRouter.get("/", getUsers);
-userRouter.patch("/", updateUserByToken);
-userRouter.delete("/:id", deleteUser);
+userRouter.get("/", userController.fetch);
+userRouter.patch("/", userController.update);
+userRouter.delete("/:id", userController.delete);
 
 export default userRouter;
