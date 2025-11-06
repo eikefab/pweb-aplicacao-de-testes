@@ -1,9 +1,9 @@
 import z from "zod";
 
 const createTestQuestionSchema = z.object({
-  testId: z.string().uuid().nonoptional(),
+  testId: z.uuid().nonoptional(),
   question: z.string().min(1).max(1024),
-  createdBy: z.string().uuid().nonoptional(),
+  createdBy: z.uuid().nonoptional(),
 });
 
 const updateTestQuestionSchema = createTestQuestionSchema
