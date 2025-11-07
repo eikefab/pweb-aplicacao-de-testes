@@ -1,7 +1,6 @@
 import z from "zod";
 
 const createTestAssigneeSchema = z.object({
-  testId: z.uuid().nonoptional(),
   userId: z.uuid().nonoptional(),
 });
 

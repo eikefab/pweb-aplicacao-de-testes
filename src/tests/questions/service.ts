@@ -33,8 +33,10 @@ async function updateTestQuestion(
     .returning();
 }
 
-async function fetchTestQuestions() {
-  return db.query.testQuestions.findMany();
+async function fetchTestQuestions(testId: string) {
+  return db.query.testQuestions.findMany({
+    where: (testQuestions, { eq }) => eq(testQuestions.testId, testId),
+  });
 }
 
 async function deleteTestQuestion(testQuestionId: string) {

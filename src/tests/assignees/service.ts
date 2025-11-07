@@ -1,11 +1,21 @@
 import { eq } from "drizzle-orm";
 import { db } from "../..";
 import { testAssignees } from "../../db/schema";
-import { TestAssigneeNotFound } from "./exception";
+import { TestAssigneeAlreadyExists, TestAssigneeNotFound } from "./exception";
 
 async function createTestAssignee(
   testAssignee: typeof testAssignees.$inferInsert,
 ) {
+  const conflictTestAssignee = await db.query.testAssignees.findFirst({
+    where: (testAssignees, { eq }) =>
+      eq(testAssignees.userId, testAssignee.userId) &&
+      eq(testAssignees.testId, testAssignee.testId),
+  });
+
+  if (conflictTestAssignee) {
+    throw TestAssigneeAlreadyExists;
+  }
+
   return db.insert(testAssignees).values(testAssignee).returning();
 }
 

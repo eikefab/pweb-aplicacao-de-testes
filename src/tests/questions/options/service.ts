@@ -34,8 +34,11 @@ async function updateTestQuestionOption(
     .returning();
 }
 
-async function fetchTestQuestionOptions() {
-  return db.query.testQuestionsOptions.findMany();
+async function fetchTestQuestionOptions(questionId: string) {
+  return db.query.testQuestionsOptions.findMany({
+    where: (testQuestionsOptions, { eq }) =>
+      eq(testQuestionsOptions.testQuestionId, questionId),
+  });
 }
 
 async function deleteTestQuestionOption(testQuestionOptionId: string) {

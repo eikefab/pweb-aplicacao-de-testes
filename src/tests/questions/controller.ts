@@ -31,7 +31,7 @@ const testQuestionController: TestQuestionController = {
     res.status(200).json(result);
   },
   async fetch(req, res) {
-    const result = await fetchTestQuestions();
+    const result = await fetchTestQuestions(req.params.id!);
 
     res.status(200).json(result);
   },

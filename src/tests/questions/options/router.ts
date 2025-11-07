@@ -2,13 +2,19 @@ import { Router } from "express";
 import authMiddleware from "../../../users/auth/middleware";
 import testQuestionOptionController from "./controller";
 
-const testQuestionOptionRouter: Router = Router();
+const testQuestionOptionRouter: Router = Router({ mergeParams: true });
 
 testQuestionOptionRouter.use(authMiddleware);
 
 testQuestionOptionRouter.get("/", testQuestionOptionController.fetch);
 testQuestionOptionRouter.post("/", testQuestionOptionController.create);
-testQuestionOptionRouter.patch("/:id", testQuestionOptionController.update);
-testQuestionOptionRouter.delete("/:id", testQuestionOptionController.delete);
+testQuestionOptionRouter.patch(
+  "/:optionId",
+  testQuestionOptionController.update,
+);
+testQuestionOptionRouter.delete(
+  "/:optionId",
+  testQuestionOptionController.delete,
+);
 
 export default testQuestionOptionRouter;

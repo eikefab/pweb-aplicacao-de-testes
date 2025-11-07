@@ -20,23 +20,26 @@ type TestQuestionOptionController = {
 const testQuestionOptionController: TestQuestionOptionController = {
   async create(req, res) {
     const data = await createTestQuestionOptionSchema.parseAsync(req.body);
-    const result = await createTestQuestionOption(data);
+    const result = await createTestQuestionOption({
+      ...data,
+      testQuestionId: req.params.questionId!,
+    });
 
     res.status(201).json(result);
   },
   async update(req, res) {
     const data = await updateTestQuestionOptionSchema.parseAsync(req.body);
-    const result = await updateTestQuestionOption(data, req.params.id!);
+    const result = await updateTestQuestionOption(data, req.params.optionId!);
 
     res.status(200).json(result);
   },
   async fetch(req, res) {
-    const result = await fetchTestQuestionOptions();
+    const result = await fetchTestQuestionOptions(req.params.questionId!);
 
     res.status(200).json(result);
   },
   async delete(req, res) {
-    await deleteTestQuestionOption(req.params.id!);
+    await deleteTestQuestionOption(req.params.optionId!);
 
     res.status(204).send();
   },

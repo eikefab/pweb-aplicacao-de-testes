@@ -6,4 +6,10 @@ const TestAssigneeNotFound = new AppError({
   errorSlug: "tests/assignees/not-found",
 });
 
-export { TestAssigneeNotFound };
+const TestAssigneeAlreadyExists = new AppError({
+  message: "Candidato do Teste já cadastrado no teste!",
+  statusCode: 409,
+  errorSlug: "tests/assignees/already-exists",
+});
+
+export { TestAssigneeNotFound, TestAssigneeAlreadyExists };

@@ -15,7 +15,10 @@ type TestAssigneeController = {
 const testAssigneeController: TestAssigneeController = {
   async create(req, res) {
     const data = await createTestAssigneeSchema.parseAsync(req.body);
-    const result = await createTestAssignee(data);
+    const result = await createTestAssignee({
+      ...data,
+      testId: req.params.id!,
+    });
 
     res.status(201).json(result);
   },
@@ -25,7 +28,7 @@ const testAssigneeController: TestAssigneeController = {
     res.status(200).json(result);
   },
   async delete(req, res) {
-    await deleteTestAssignee(req.params.id!);
+    await deleteTestAssignee(req.params.assigneeId!);
 
     res.status(204).send();
   },
