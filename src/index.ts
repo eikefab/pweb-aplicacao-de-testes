@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import express, { json } from "express";
+import cors from "cors";
 import authRouter from "./users/auth/router";
 import userRouter from "./users/router";
 import errorMiddleware from "./error";
@@ -12,6 +13,11 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema });
 const server = express();
 
 server.use(json());
+server.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Vite default
+  }),
+);
 server.use(
   helmet({
     hidePoweredBy: true,
