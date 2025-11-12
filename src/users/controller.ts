@@ -28,7 +28,7 @@ const userController: UserController = {
     res.status(200).json(result);
   },
   async delete(req, res) {
-    await deleteUser(req.user!.id);
+    await deleteUser(req.params.id!);
 
     res.status(204).send();
   },
