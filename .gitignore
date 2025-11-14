@@ -5,3 +5,4 @@ dist/
 .vscode/
 drizzle/
 CLAUDE.md
+.claude/
