@@ -41,7 +41,7 @@ export const testQuestionsOptions = pgTable("tests_questions_options", {
   id: uuid().primaryKey().defaultRandom(),
   testQuestionId: uuid("test_question_id")
     .notNull()
-    .references(() => testQuestions.id),
+    .references(() => testQuestions.id, { onDelete: "cascade" }),
   description: varchar("description", { length: 512 }).notNull(),
   isCorrect: boolean("is_correct").notNull().default(false),
 });

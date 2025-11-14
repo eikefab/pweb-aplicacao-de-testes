@@ -27,7 +27,7 @@ const testQuestionController: TestQuestionController = {
   },
   async update(req, res) {
     const data = await updateTestQuestionSchema.parseAsync(req.body);
-    const result = await updateTestQuestion(data, req.params.id!);
+    const result = await updateTestQuestion(data, req.params.questionId!);
 
     res.status(200).json(result);
   },
@@ -37,7 +37,7 @@ const testQuestionController: TestQuestionController = {
     res.status(200).json(result);
   },
   async delete(req, res) {
-    await deleteTestQuestion(req.params.id!);
+    await deleteTestQuestion(req.params.questionId!);
 
     res.status(204).send();
   },
