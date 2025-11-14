@@ -1,14 +1,18 @@
 import { z } from "zod";
 
 const registerSchema = z.object({
-  email: z.email().nonoptional(),
-  password: z.string().min(8).nonoptional(),
-  name: z.string().min(2).nonoptional(),
+  email: z.email({ message: "Email inválido" }),
+  password: z
+    .string()
+    .min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
+  name: z.string().min(2, { message: "Nome deve ter no mínimo 2 caracteres" }),
 });
 
 const loginSchema = z.object({
-  email: z.email().nonoptional(),
-  password: z.string().min(8).nonoptional(),
+  email: z.email({ message: "Email inválido" }),
+  password: z
+    .string()
+    .min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
 });
 
 type RegisterDTO = z.infer<typeof registerSchema>;

@@ -1,7 +1,7 @@
 import z from "zod";
 
 const createTestAssigneeSchema = z.object({
-  userId: z.uuid().nonoptional(),
+  userId: z.uuid({ message: "ID do usuário inválido" }),
 });
 
 type CreateTestAssigneeDTO = z.infer<typeof createTestAssigneeSchema>;

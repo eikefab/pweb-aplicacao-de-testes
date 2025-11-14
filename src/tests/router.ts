@@ -10,6 +10,7 @@ testRouter.use(authMiddleware);
 
 testRouter.get("/", testController.fetch);
 testRouter.post("/", testController.create);
+testRouter.get("/:id", testController.find);
 testRouter.patch("/:id", testController.update);
 testRouter.delete("/:id", testController.delete);
 

@@ -57,8 +57,44 @@ async function fetchTests() {
   return db.query.tests.findMany();
 }
 
+async function findTest(testId: string) {
+  const result = await db.query.tests.findFirst({
+    columns: {
+      createdBy: false,
+    },
+    where: (tests, { eq }) => eq(tests.id, testId),
+    with: {
+      questions: {
+        with: {
+          options: true,
+        },
+      },
+      assignees: true,
+      results: true,
+      creator: {
+        columns: {
+          password: false,
+        },
+      },
+    },
+  });
+
+  if (!result) {
+    throw TestNotFound;
+  }
+
+  return result;
+}
+
 async function deleteTest(testId: string) {
   return db.delete(tests).where(eq(tests.id, testId));
 }
 
-export { createTest, findTestById, fetchTests, deleteTest, updateTest };
+export {
+  createTest,
+  findTestById,
+  fetchTests,
+  deleteTest,
+  updateTest,
+  findTest,
+};

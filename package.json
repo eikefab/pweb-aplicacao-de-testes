@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "drizzle:push": "npx drizzle-kit push",
-    "run:dev": "tsx watch src/index.ts",
+    "dev": "tsx --watch src/index.ts",
     "prepare": "husky",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"

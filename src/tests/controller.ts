@@ -1,11 +1,18 @@
 import type { Request, Response } from "express";
 import { createTestSchema, updateTestSchema } from "./schema";
-import { createTest, deleteTest, fetchTests, updateTest } from "./service";
+import {
+  createTest,
+  deleteTest,
+  fetchTests,
+  findTest,
+  updateTest,
+} from "./service";
 
 type TestController = {
   create: (req: Request, res: Response) => Promise<void>;
   update: (req: Request, res: Response) => Promise<void>;
   fetch: (req: Request, res: Response) => Promise<void>;
+  find: (req: Request, res: Response) => Promise<void>;
   delete: (req: Request, res: Response) => Promise<void>;
 };
 
@@ -29,6 +36,11 @@ const testController: TestController = {
   },
   async fetch(req, res) {
     const result = await fetchTests();
+
+    res.status(200).json(result);
+  },
+  async find(req, res) {
+    const result = await findTest(req.params.id!);
 
     res.status(200).json(result);
   },

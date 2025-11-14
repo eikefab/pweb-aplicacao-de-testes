@@ -1,9 +1,11 @@
 import z from "zod";
 
 const createUserSchema = z.object({
-  email: z.email(),
-  password: z.string().min(8),
-  name: z.string().min(2),
+  email: z.email({ message: "Email inválido" }),
+  password: z
+    .string()
+    .min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
+  name: z.string().min(2, { message: "Nome deve ter no mínimo 2 caracteres" }),
 });
 
 const updateUserSchema = createUserSchema.partial();

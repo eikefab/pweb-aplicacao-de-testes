@@ -4,6 +4,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  numeric,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm/relations";
 
@@ -45,6 +46,17 @@ export const testQuestionsOptions = pgTable("tests_questions_options", {
   isCorrect: boolean("is_correct").notNull().default(false),
 });
 
+export const testResult = pgTable("test_results", {
+  id: uuid().primaryKey().defaultRandom(),
+  testId: uuid("test_id")
+    .notNull()
+    .references(() => tests.id),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id),
+  score: numeric("score").notNull(),
+});
+
 export const testAssignees = pgTable("test_assignees", {
   id: uuid().primaryKey().defaultRandom(),
   testId: uuid("test_id")
@@ -58,6 +70,7 @@ export const testAssignees = pgTable("test_assignees", {
 export const usersRelations = relations(users, ({ many }) => ({
   createdTests: many(tests),
   assignedTests: many(testAssignees),
+  testResults: many(testResult),
 }));
 
 export const testsRelations = relations(tests, ({ one, many }) => ({
@@ -67,6 +80,7 @@ export const testsRelations = relations(tests, ({ one, many }) => ({
   }),
   questions: many(testQuestions),
   assignees: many(testAssignees),
+  results: many(testResult),
 }));
 
 export const testQuestionsRelations = relations(
@@ -105,10 +119,28 @@ export const testAssigneesRelations = relations(testAssignees, ({ one }) => ({
   }),
 }));
 
+export const testResultRelations = relations(testResult, ({ one }) => ({
+  test: one(tests, {
+    fields: [testResult.testId],
+    references: [tests.id],
+  }),
+  user: one(users, {
+    fields: [testResult.userId],
+    references: [users.id],
+  }),
+}));
+
 export const schema = {
   users,
   tests,
   testQuestions,
   testQuestionsOptions,
   testAssignees,
+  testResult,
+  testAssigneesRelations,
+  testResultRelations,
+  testQuestionsOptionsRelations,
+  testQuestionsRelations,
+  testsRelations,
+  usersRelations,
 };
