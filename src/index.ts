@@ -8,6 +8,7 @@ import errorMiddleware from "./error";
 import helmet from "helmet";
 import { schema } from "./db/schema";
 import testRouter from "./tests/router";
+import testQuestionRouter from "./tests/questions/router";
 
 export const db = drizzle(process.env.DATABASE_URL!, { schema });
 const server = express();
@@ -27,6 +28,7 @@ server.use(
 server.use("/auth", authRouter);
 server.use("/users", userRouter);
 server.use("/tests", testRouter);
+server.use("/questions", testQuestionRouter);
 
 server.use(errorMiddleware);
 

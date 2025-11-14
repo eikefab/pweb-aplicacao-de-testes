@@ -3,12 +3,14 @@ import {
   createTestAssignee,
   deleteTestAssignee,
   fetchTestAssignees,
+  fetchTestAssigneesByTestId,
 } from "./service";
 import { createTestAssigneeSchema } from "./schema";
 
 type TestAssigneeController = {
   create: (req: Request, res: Response) => Promise<void>;
   fetch: (req: Request, res: Response) => Promise<void>;
+  fetchAssignees: (req: Request, res: Response) => Promise<void>;
   delete: (req: Request, res: Response) => Promise<void>;
 };
 
@@ -24,6 +26,11 @@ const testAssigneeController: TestAssigneeController = {
   },
   async fetch(req, res) {
     const result = await fetchTestAssignees();
+
+    res.status(200).json(result);
+  },
+  async fetchAssignees(req, res) {
+    const result = await fetchTestAssigneesByTestId(req.params.id!);
 
     res.status(200).json(result);
   },

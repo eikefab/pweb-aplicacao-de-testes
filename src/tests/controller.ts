@@ -3,6 +3,7 @@ import { createTestSchema, updateTestSchema } from "./schema";
 import {
   createTest,
   deleteTest,
+  fetchAssigned,
   fetchTests,
   findTest,
   updateTest,
@@ -12,6 +13,7 @@ type TestController = {
   create: (req: Request, res: Response) => Promise<void>;
   update: (req: Request, res: Response) => Promise<void>;
   fetch: (req: Request, res: Response) => Promise<void>;
+  fetchTestsTo: (req: Request, res: Response) => Promise<void>;
   find: (req: Request, res: Response) => Promise<void>;
   delete: (req: Request, res: Response) => Promise<void>;
 };
@@ -36,6 +38,11 @@ const testController: TestController = {
   },
   async fetch(req, res) {
     const result = await fetchTests();
+
+    res.status(200).json(result);
+  },
+  async fetchTestsTo(req, res) {
+    const result = await fetchAssigned(req.user!.id);
 
     res.status(200).json(result);
   },

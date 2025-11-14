@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { tests } from "../db/schema";
+import { testAssignees, tests } from "../db/schema";
 import { db } from "../index";
 import { TestInvalidDateRange, TestNotFound } from "./exception";
 import { UpdateTestDTO } from "./schema";
@@ -69,8 +69,24 @@ async function findTest(testId: string) {
           options: true,
         },
       },
-      assignees: true,
-      results: true,
+      assignees: {
+        with: {
+          user: {
+            columns: {
+              password: false,
+            },
+          },
+        },
+      },
+      results: {
+        with: {
+          user: {
+            columns: {
+              password: false,
+            },
+          },
+        },
+      },
       creator: {
         columns: {
           password: false,
@@ -86,6 +102,15 @@ async function findTest(testId: string) {
   return result;
 }
 
+async function fetchAssigned(userId: string) {
+  return db
+    .select({ tests: tests })
+    .from(tests)
+    .innerJoin(testAssignees, eq(tests.id, testAssignees.testId))
+    .where(eq(testAssignees.userId, userId))
+    .then((rows) => rows.map((row) => row.tests));
+}
+
 async function deleteTest(testId: string) {
   return db.delete(tests).where(eq(tests.id, testId));
 }
@@ -94,6 +119,7 @@ export {
   createTest,
   findTestById,
   fetchTests,
+  fetchAssigned,
   deleteTest,
   updateTest,
   findTest,

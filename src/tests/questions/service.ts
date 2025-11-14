@@ -36,6 +36,9 @@ async function updateTestQuestion(
 async function fetchTestQuestions(testId: string) {
   return db.query.testQuestions.findMany({
     where: (testQuestions, { eq }) => eq(testQuestions.testId, testId),
+    with: {
+      options: true,
+    },
   });
 }
 

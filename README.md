@@ -1,9 +1,11 @@
 # Equipe
 
-* Eike Fabrício da Silva (efs57@aluno.ifal.edu.br)
-* Marina Medeiros Correia de Paffer (mmcp1@aluno.ifal.edu.br)
+- Eike Fabrício da Silva (efs57@aluno.ifal.edu.br)
+- Marina Medeiros Correia de Paffer (mmcp1@aluno.ifal.edu.br)
 
-O sistema selecionado foi o de aplicação de testes, como aplicação do projeto de proficiência na disciplina de Programação Web. 
+Front-end disponível em: https://github.com/eikefab/pweb-aplicacao-de-testes-front
+
+O sistema selecionado foi o de aplicação de testes, como aplicação do projeto de proficiência na disciplina de Programação Web.
 
 ## Tecnologias Utilizadas
 
@@ -69,3 +71,44 @@ pnpm drizzle:push
 # Executar em modo desenvolvimento
 pnpm run:dev
 ```
+
+## Rotas da API
+
+### Autenticação
+
+- `POST /auth/register`
+- `POST /auth/login`
+
+### Usuários
+
+- `GET /users`
+- `PATCH /users`
+- `DELETE /users/:id`
+
+### Testes
+
+- `GET /tests`
+- `POST /tests`
+- `GET /tests/:id`
+- `PATCH /tests/:id`
+- `DELETE /tests/:id`
+
+### Assignees
+
+- `GET /tests/:id/assignees`
+- `POST /tests/:id/assign`
+- `DELETE /tests/:id/assignees/:assigneeId`
+
+### Questões
+
+- `GET /tests/:id/questions`
+- `POST /tests/:id/questions`
+- `PATCH /tests/:id/questions/:questionId`
+- `DELETE /tests/:id/questions/:questionId`
+
+### Opções
+
+- `GET /tests/:id/questions/:questionId/options`
+- `POST /tests/:id/questions/:questionId/options`
+- `PATCH /tests/:id/questions/:questionId/options/:optionId`
+- `DELETE /tests/:id/questions/:questionId/options/:optionId`

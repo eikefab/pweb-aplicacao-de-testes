@@ -19,6 +19,7 @@ const testQuestionController: TestQuestionController = {
     const data = await createTestQuestionSchema.parseAsync(req.body);
     const result = await createTestQuestion({
       ...data,
+      testId: req.params.id!,
       createdBy: req.user!.id,
     });
 
