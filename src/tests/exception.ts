@@ -6,4 +6,10 @@ const TestNotFound = new AppError({
   errorSlug: "tests/not-found",
 });
 
-export { TestNotFound };
+const TestInvalidDateRange = new AppError({
+  message: "O intervalo de datas é inválido!",
+  statusCode: 400,
+  errorSlug: "tests/invalid-date-range",
+});
+
+export { TestNotFound, TestInvalidDateRange };
