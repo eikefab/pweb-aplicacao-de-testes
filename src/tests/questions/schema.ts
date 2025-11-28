@@ -3,6 +3,7 @@ import z from "zod";
 const createTestQuestionSchema = z.object({
   question: z
     .string()
+    .trim()
     .min(1, { message: "Questão não pode estar vazia" })
     .max(1024, { message: "Questão deve ter no máximo 1024 caracteres" }),
 });

@@ -5,7 +5,10 @@ const registerSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
-  name: z.string().min(2, { message: "Nome deve ter no mínimo 2 caracteres" }),
+  name: z
+    .string()
+    .trim()
+    .min(2, { message: "Nome deve ter no mínimo 2 caracteres" }),
 });
 
 const loginSchema = z.object({
