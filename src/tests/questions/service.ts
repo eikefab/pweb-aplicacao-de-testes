@@ -38,6 +38,7 @@ async function fetchTestQuestions(testId: string) {
     where: (testQuestions, { eq }) => eq(testQuestions.testId, testId),
     with: {
       options: true,
+      answers: true,
     },
   });
 }

@@ -108,6 +108,7 @@ export const testQuestionsRelations = relations(
       references: [users.id],
     }),
     options: many(testQuestionsOptions),
+    answers: many(testQuestionsAnswers),
   }),
 );
 

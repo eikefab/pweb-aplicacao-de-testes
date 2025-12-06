@@ -67,6 +67,14 @@ async function findTest(testId: string) {
       questions: {
         with: {
           options: true,
+          answers: {
+            columns: {
+              id: true,
+              testQuestionId: true,
+              testQuestionOptionId: true,
+              userId: true,
+            },
+          },
         },
       },
       assignees: {
