@@ -46,6 +46,19 @@ export const testQuestionsOptions = pgTable("tests_questions_options", {
   isCorrect: boolean("is_correct").notNull().default(false),
 });
 
+export const testQuestionsAnswers = pgTable("tests_questions_answers", {
+  id: uuid().primaryKey().defaultRandom(),
+  testQuestionId: uuid("test_question_id")
+    .notNull()
+    .references(() => testQuestions.id, { onDelete: "cascade" }),
+  testQuestionOptionId: uuid("test_question_option_id")
+    .notNull()
+    .references(() => testQuestionsOptions.id, { onDelete: "cascade" }),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+});
+
 export const testResult = pgTable("test_results", {
   id: uuid().primaryKey().defaultRandom(),
   testId: uuid("test_id")
@@ -108,6 +121,24 @@ export const testQuestionsOptionsRelations = relations(
   }),
 );
 
+export const testQuestionsAnswersRelations = relations(
+  testQuestionsAnswers,
+  ({ one }) => ({
+    question: one(testQuestions, {
+      fields: [testQuestionsAnswers.testQuestionId],
+      references: [testQuestions.id],
+    }),
+    option: one(testQuestionsOptions, {
+      fields: [testQuestionsAnswers.testQuestionOptionId],
+      references: [testQuestionsOptions.id],
+    }),
+    user: one(users, {
+      fields: [testQuestionsAnswers.userId],
+      references: [users.id],
+    }),
+  }),
+);
+
 export const testAssigneesRelations = relations(testAssignees, ({ one }) => ({
   test: one(tests, {
     fields: [testAssignees.testId],
@@ -135,11 +166,13 @@ export const schema = {
   tests,
   testQuestions,
   testQuestionsOptions,
+  testQuestionsAnswers,
   testAssignees,
   testResult,
   testAssigneesRelations,
   testResultRelations,
   testQuestionsOptionsRelations,
+  testQuestionsAnswersRelations,
   testQuestionsRelations,
   testsRelations,
   usersRelations,
