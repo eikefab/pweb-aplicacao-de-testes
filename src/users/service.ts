@@ -3,7 +3,11 @@ import { users } from "../db/schema";
 import { db } from "../index";
 import bcrypt from "bcryptjs";
 import { UpdateUserDTO } from "./schema";
-import { UserEmailConflict, UserNotFound } from "./exception";
+import {
+  UserEmailConflict,
+  UserNotFound,
+  UserHasCreatedContent,
+} from "./exception";
 
 type LoginParams = {
   email: string;
@@ -71,6 +75,18 @@ async function fetchUsers() {
 }
 
 async function deleteUser(userId: string) {
+  const createdTests = await db.query.tests.findFirst({
+    where: (tests, { eq }) => eq(tests.createdBy, userId),
+  });
+
+  const createdQuestions = await db.query.testQuestions.findFirst({
+    where: (testQuestions, { eq }) => eq(testQuestions.createdBy, userId),
+  });
+
+  if (createdTests || createdQuestions) {
+    throw UserHasCreatedContent;
+  }
+
   return db.delete(users).where(eq(users.id, userId));
 }
 

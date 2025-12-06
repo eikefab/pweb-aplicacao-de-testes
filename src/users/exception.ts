@@ -12,4 +12,10 @@ const UserEmailConflict = new AppError({
   errorSlug: "users/email-conflict",
 });
 
-export { UserNotFound, UserEmailConflict };
+const UserHasCreatedContent = new AppError({
+  message: "Não é possível excluir usuário que criou testes ou questões.",
+  statusCode: 409,
+  errorSlug: "users/has-created-content",
+});
+
+export { UserNotFound, UserEmailConflict, UserHasCreatedContent };

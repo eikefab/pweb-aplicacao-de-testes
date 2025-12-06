@@ -66,7 +66,7 @@ export const testResult = pgTable("test_results", {
     .references(() => tests.id),
   userId: uuid("user_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
   score: numeric("score").notNull(),
 });
 
@@ -77,7 +77,7 @@ export const testAssignees = pgTable("test_assignees", {
     .references(() => tests.id),
   userId: uuid("user_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
